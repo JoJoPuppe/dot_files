@@ -84,7 +84,7 @@ ZSH_THEME="mgutz"
 # Add wisely, as too many plugins slow down shell startup.
 #
 
-plugins=(git copybuffer copyfile copypath zsh-autosuggestions)
+plugins=(gitfast copybuffer copyfile copypath zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -114,7 +114,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-
 # AUTOCOMPLETION
 # autoload -U compinit && compinit history setup
 # setopt SHARE_HISTORY
