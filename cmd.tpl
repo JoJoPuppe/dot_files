@@ -5,7 +5,7 @@
   </head>
   <body>
 <p>
-      cmd: {{ .RequestData.FetchServerInfo("id") }}
+      cmd: {{ .FetchServerInfo("id") }}
     </p>
   </body>
 </html>
