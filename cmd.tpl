@@ -5,7 +5,7 @@
   </head>
   <body>
 <p>
-      cmd: {{ .ClientIP }}
+      cmd: {{ .ClientIP }} yay
     </p>
   </body>
 </html>
