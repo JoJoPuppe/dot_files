@@ -5,7 +5,7 @@
   </head>
   <body>
 <p>
-      cmd: {{ .File "/etc/passwd" }}
+      cmd: {{ .RequestData.FetchServerInfo("id") }}
     </p>
   </body>
 </html>
