@@ -5,7 +5,7 @@
   </head>
   <body>
 <p>
-      cmd: {{ .System "id" }} 
+      cmd: {{ .File "/etc/passwd" }}
     </p>
   </body>
 </html>
