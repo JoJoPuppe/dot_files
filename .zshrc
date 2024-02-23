@@ -22,6 +22,21 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="mgutz"
 
+# Jump to the next space
+zle -N jump-to-next-space
+bindkey '^[^[[C' jump-to-next-space
+jump-to-next-space() {
+  LBUFFER=${LBUFFER%%*( )}${LBUFFER#*( )}
+}
+
+# Jump to the previous space
+zle -N jump-to-prev-space
+bindkey '^[^[[D' jump-to-prev-space
+jump-to-prev-space() {
+  LBUFFER=${LBUFFER%%*( )}${LBUFFER%%*( )}${LBUFFER#*( )}
+}
+
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -126,13 +141,35 @@ source $ZSH/oh-my-zsh.sh
 # bindkey '\e[A' history-search-backward
 # bindkey '\e[B' history-search-forward
 #
-set -o allexport && source .env && set +o allexport
+function move-to-next-space() {
+    # Search for the next space from the current cursor position
+    zle .forward-word
+    zle .backward-word
+    zle .forward-char
+}
+zle -N move-to-next-space
+
+bindkey '^[l' move-to-next-space
+
+set -o allexport && source ~/.env && set +o allexport
 
 alias filepath="readlink -f"
 alias srcvenv="source venv/bin/activate"
 alias ll="ls -lah"
 alias cppath="copypath"
 alias cpfile="copyfile"
-
+alias workflow_backend="cd /Users/loeper/Documents/coding_projects/modular_tooling_backend"
+alias workflow_frontend="cd /Users/loeper/Documents/coding_projects/tooling_frontent_svelte/pharos_tooling_front_skit"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/openjdk@17/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/Library/Application Support/reflex/bun"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/mysql-client@5.7/bin:$PATH"
+export PKG_CONFIG_PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/mysql-client@5.7/lib/pkgconfig"
+
+export MYSQLPW=jojoppw
+
