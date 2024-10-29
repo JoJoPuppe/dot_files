@@ -168,8 +168,21 @@ export PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/openjdk@17/bin:$PATH"
 export BUN_INSTALL="$HOME/Library/Application Support/reflex/bun"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 export PATH="$BUN_INSTALL/bin:$PATH"
+# Ruby init
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init - zsh)"
+export PATH=`gem environment gemdir`/bin:$PATH
+
+
 export PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/mysql-client@5.7/bin:$PATH"
 export PKG_CONFIG_PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/mysql-client@5.7/lib/pkgconfig"
 
+export PATH="/Users/loeper/Documents/Marcus_Stuff/homebrew/bin:$PATH"
 export MYSQLPW=jojoppw
+export  WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="/Users/loeper/Documents/Marcus_Stuff/homebrew/opt/mysql-client/bin:$PATH"
