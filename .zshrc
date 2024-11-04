@@ -23,18 +23,18 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
 ZSH_THEME="mgutz"
 
 # Jump to the next space
-zle -N jump-to-next-space
-bindkey '^[^[[C' jump-to-next-space
-jump-to-next-space() {
-  LBUFFER=${LBUFFER%%*( )}${LBUFFER#*( )}
-}
+# zle -N jump-to-next-space
+# bindkey '^[^[[C' jump-to-next-space
+# jump-to-next-space() {
+#   LBUFFER=${LBUFFER%%*( )}${LBUFFER#*( )}
+# }
 
 # Jump to the previous space
-zle -N jump-to-prev-space
-bindkey '^[^[[D' jump-to-prev-space
-jump-to-prev-space() {
-  LBUFFER=${LBUFFER%%*( )}${LBUFFER%%*( )}${LBUFFER#*( )}
-}
+# zle -N jump-to-prev-space
+# bindkey '^[^[[D' jump-to-prev-space
+# jump-to-prev-space() {
+#   LBUFFER=${LBUFFER%%*( )}${LBUFFER%%*( )}${LBUFFER#*( )}
+# }
 
 
 # Set list of themes to pick from when loading at random
@@ -141,48 +141,34 @@ source $ZSH/oh-my-zsh.sh
 # bindkey '\e[A' history-search-backward
 # bindkey '\e[B' history-search-forward
 #
-function move-to-next-space() {
-    # Search for the next space from the current cursor position
-    zle .forward-word
-    zle .backward-word
-    zle .forward-char
-}
-zle -N move-to-next-space
 
-bindkey '^[l' move-to-next-space
-
-set -o allexport && source ~/.env && set +o allexport
+# function move-to-next-space() {
+#     # Search for the next space from the current cursor position
+#     zle .forward-word
+#     zle .backward-word
+#     zle .forward-char
+# }
+# zle -N move-to-next-space
+# 
+# bindkey '^[l' move-to-next-space
 
 alias filepath="readlink -f"
 alias srcvenv="source venv/bin/activate"
 alias ll="ls -lah"
 alias cppath="copypath"
 alias cpfile="copyfile"
-alias workflow_backend="cd /Users/loeper/Documents/coding_projects/modular_tooling_backend"
-alias workflow_frontend="cd /Users/loeper/Documents/coding_projects/tooling_frontent_svelte/pharos_tooling_front_skit"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/openjdk@17/bin:$PATH"
 
-# bun
-export BUN_INSTALL="$HOME/Library/Application Support/reflex/bun"
-export PATH="$PATH":"$HOME/.pub-cache/bin"
-export PATH="$BUN_INSTALL/bin:$PATH"
-# Ruby init
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init - zsh)"
-export PATH=`gem environment gemdir`/bin:$PATH
-
-
-export PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/mysql-client@5.7/bin:$PATH"
-export PKG_CONFIG_PATH="/Users/loeper/Documents/Marcus_Stuff/hb/opt/mysql-client@5.7/lib/pkgconfig"
-
-export PATH="/Users/loeper/Documents/Marcus_Stuff/homebrew/bin:$PATH"
-export MYSQLPW=jojoppw
 export  WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="/Users/loeper/Documents/Marcus_Stuff/homebrew/opt/mysql-client/bin:$PATH"
+
+export PATH="$PATH:/opt/nvim-linux64/bin"
+
+# Install Ruby Gems to ~/gems
+export GEM_HOME="$HOME/gems"
+export PATH="$HOME/gems/bin:$PATH"
+
