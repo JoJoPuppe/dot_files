@@ -3,14 +3,14 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export FZF_DEFAULT_COMMAND="fd --type f"
-export FZF_CTRL_T_COMMAND="fd --type f"
-export FZF_ALT_C_COMMAND="fd --type d"
+export FZF_DEFAULT_COMMAND="fdfind --type f --exclude .git --exclude venv --ignore-file ~/.gitignore . $HOME"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fdfind --type d --exclude .git --exclude venv --ignore-file ~/.gitignore . $HOME"
 
 export FZF_CTRL_R_OPTS="
   --preview 'echo {}' --preview-window up:3:hidden:wrap
   --bind 'ctrl-/:toggle-preview'
-  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | xclip)+abort'
   --color header:italic
   --header 'Press CTRL-Y to copy command into clipboard'"
 
