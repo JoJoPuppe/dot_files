@@ -33,9 +33,9 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- set keys for tab navigation
 --
-vim.keymap.set("n", "<S-Right>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<S-Left>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<A-c>", "<Cmd>BufferClose<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Tab>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>x", "<Cmd>BufferClose<CR>", { noremap = true, silent = true, desc = "close Buffer" })
 
 -- set keys for terminal toggle
 -- Normal mode mapping
