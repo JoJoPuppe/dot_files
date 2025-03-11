@@ -3,14 +3,14 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export FZF_DEFAULT_COMMAND="fdfind --type f --exclude .git --exclude venv --ignore-file ~/.gitignore . $HOME"
+export FZF_DEFAULT_COMMAND="fd --type f --exclude .git --exclude venv --ignore-file ~/.gitignore . $HOME"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fdfind --type d --exclude .git --exclude venv --ignore-file ~/.gitignore . $HOME"
+export FZF_ALT_C_COMMAND="fd --type d --exclude .git --exclude venv --ignore-file ~/.gitignore . $HOME"
 
 export FZF_CTRL_R_OPTS="
   --preview 'echo {}' --preview-window up:3:hidden:wrap
   --bind 'ctrl-/:toggle-preview'
-  --bind 'ctrl-y:execute-silent(echo -n {2..} | xclip)+abort'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
   --color header:italic
   --header 'Press CTRL-Y to copy command into clipboard'"
 
@@ -20,7 +20,7 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="mgutz"
+ZSH_THEME="minimal"
 
 # Jump to the next space
 # zle -N jump-to-next-space
@@ -99,7 +99,7 @@ ZSH_THEME="mgutz"
 # Add wisely, as too many plugins slow down shell startup.
 #
 
-plugins=(gitfast copybuffer copyfile copypath zsh-autosuggestions)
+plugins=(gitfast copybuffer copyfile copypath zsh-autosuggestions kubectl-autocomplete kubectl helm kube-ps1)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -131,11 +131,16 @@ fi
 #
 # AUTOCOMPLETION
 # autoload -U compinit && compinit history setup
-# setopt SHARE_HISTORY
-# HISTFILE=$HOME/.zhistory
-# SAVEHIST=1000
-# HISTSIZE=999
-# setopt HIST_EXPIRE_DUPS_FIRST
+setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+HISTFILE=$HOME/.zhistory
+SAVEHIST=2000
+HISTSIZE=999
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_ALL_DUPS
+setopt AUTO_CD
+setopt AUTOPUSHD
+setopt NO_BEEP
 # 
 # # autocompletion using arrow keys (based on history)
 # bindkey '\e[A' history-search-backward
@@ -158,37 +163,39 @@ alias ll="ls -lah"
 alias cppath="copypath"
 alias cpfile="copyfile"
 
+# autosuggest accept keybinding
+bindkey '^ ' autosuggest-accept
+
 # obsidian start
-alias startobsidian="/home/jojop/Applications/Obsidian-1.7.4.AppImage --no-sandbox > /dev/null 2>&1 &"
+# alias startobsidian="/home/jojop/Applications/Obsidian-1.7.4.AppImage --no-sandbox > /dev/null 2>&1 &"
 
 # pet aliases
-alias ppc="pet search | xclip -selection c"
+alias ppc="pet search | pbcopy -selection c"
 alias ppe="pet exec"
 
-function prev() {
-  PREV=$(fc -lrn | head -n 1)
-  sh -c "pet new `printf %q "$PREV"`"
-}
+# function prev() {
+#   PREV=$(fc -lrn | head -n 1)
+#   sh -c "pet new `printf %q "$PREV"`"
+# }
+#
+#
+#   BUFFER=$(pet search --query "$LBUFFER")
+#   CURSOR=$#BUFFER
+#   zle redisplay
+# }
+# zle -N pet-select
+# stty -ixon
+# bindkey '^s' pet-select
 
-function pet-select() {
-  BUFFER=$(pet search --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle redisplay
-}
-zle -N pet-select
-stty -ixon
-bindkey '^s' pet-select
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export  WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export PATH="$PATH:/opt/nvim-linux64/bin"
 
 # Install Ruby Gems to ~/gems
 export GEM_HOME="$HOME/gems"
@@ -197,9 +204,57 @@ export PATH="$HOME/gems/bin:$PATH"
 # add go PATH
 export GOPATH="$HOME/go"
 export PATH="$PATH:$GOPATH:/usr/local/go/bin"
-
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/opt/nvim-linux64/bin:/opt/homebrew/bin:$PATH"
 
 
 # Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+# [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 export PATH=$PATH:$HOME/go/bin
+export PYENV_ROOT="$HOME/.pyenv"
+
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+#
+# ccloud multitool visual
+#
+### ZSH examples
+# colorful prompt
+setopt PROMPT_SUBST
+# PS1='$CCLOUD_PROMPT_ESCAPED_ZSH%{%F{118}%}%n@%m%{%f%}:%{%F{039}%}%~%{%f%}%# '
+#
+PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# '
+PROMPT='$(kube_ps1)'$PROMPT # or RPROMPT='$(kube_ps1)'
+# PROMPT='%{$(u8s prompt)%} '$PROMPT
+
+
+KUBE_PS1_SEPARATOR=" "
+KUBE_PS1_PREFIX=""
+KUBE_PS1_SUFFIX=" "
+KUBE_PS1_CTX_COLOR="green"
+alias osenv="env | grep OS_"
+
+export OS_PW_CMD="security find-generic-password -a $USER -s openstack -w"
+
+function cld {
+    exec {fd_ccloud}>>/dev/stdout
+    . =(ccloud-multitool --ppid $$ --stdout-fd $fd_ccloud "$@")
+    exec {fd_ccloud}>&-
+}
+
+source <(cld completion zsh --prog-name cld)
+
+export PATH="/opt/homebrew/opt/mysql/bin:$PATH"
+
+
+alias k="u8s kubectl --"
+alias kn="u8s set --namespace"
+alias kc="u8s set --context"
+alias kk="u8s set --kubeconfig"
+
+alias h="u8s helm --"
+alias h3="u8s helm3 --"
+
+
+export PATH="/opt/homebrew/opt/openldap/bin:$PATH"
+export PATH="/opt/homebrew/opt/openldap/sbin:$PATH"
