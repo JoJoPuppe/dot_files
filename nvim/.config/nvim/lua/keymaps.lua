@@ -1,9 +1,13 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
-
+local vim = vim
+local api = vim.api
+local M = {}
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+vim.keymap.set("i", "jj", "<Esc>", { noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
@@ -31,6 +35,10 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
+vim.keymap.set("n", "<S-Up>", ":resize -5<CR>", { desc = "Increase height" })
+vim.keymap.set("n", "<S-Down>", ":resize +5<CR>", { desc = "Decrease height" })
+vim.keymap.set("n", "<S-Left>", ":vertical resize +5<CR>", { desc = "Decrease width" })
+vim.keymap.set("n", "<S-Right>", ":vertical resize -5<CR>", { desc = "Increase width" })
 -- set keys for tab navigation
 --
 vim.keymap.set("n", "<Tab>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
@@ -101,4 +109,31 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		vim.lsp.buf.format({ async = false })
 	end,
 })
+
+local function close_floating()
+	local inactive_floating_wins = vim.fn.filter(vim.api.nvim_list_wins(), function(k, v)
+		local file_type = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(v), "filetype")
+
+		return vim.api.nvim_win_get_config(v).relative ~= ""
+			and v ~= vim.api.nvim_get_current_win()
+			and file_type ~= "hydra_hint"
+	end)
+	for _, w in ipairs(inactive_floating_wins) do
+		pcall(vim.api.nvim_win_close, w, false)
+	end
+end
+
+vim.keymap.set("n", "<C-m>", close_floating, { noremap = true, silent = true })
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	callback = function()
+		vim.defer_fn(function()
+			-- Only open folds if folding is enabled
+			if vim.wo.foldenable then
+				vim.cmd("normal! zR")
+			end
+		end, 20) -- wait ~20ms to allow folds to settle
+	end,
+})
+
 -- vim: ts=2 sts=2 sw=2 et

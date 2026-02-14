@@ -53,6 +53,17 @@ require("lazy").setup({
 
 	require("kickstart/plugins/flash"),
 
+	require("kickstart/plugins/copilot"),
+
+	require("kickstart/plugins/copilot_chat"),
+
+	require("kickstart/plugins/kubectl"),
+
+  require("kickstart/plugins/neo-git"),
+
+  require("kickstart/plugins/mason-workaround"),
+
+  require("kickstart/plugins/dap_v2"),
 	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
 	-- place them in the correct locations.
@@ -62,8 +73,8 @@ require("lazy").setup({
 	--  Here are some example plugins that I've included in the Kickstart repository.
 	--  Uncomment any of the lines below to enable them (you will need to restart nvim).
 	--
-	require("kickstart.plugins.debug"),
-	require("kickstart.plugins.indent_line"),
+	-- require("kickstart.plugins.debug"),
+	-- require("kickstart.plugins.indent_line"),
 	require("kickstart.plugins.lint"),
 	require("kickstart.plugins.autopairs"),
 	require("kickstart.plugins.neo-tree"),
